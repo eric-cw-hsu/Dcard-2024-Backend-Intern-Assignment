@@ -42,5 +42,9 @@ func (db *MysqlDatabase) Close() {
 
 func (db *MysqlDatabase) GetConnectionString() string {
 	// return the connection string for the mysql database
-	return fmt.Sprintf("mysql://%s:%s@tcp(%s:%s)/%s", db.config.User, db.config.Password, db.config.Host, db.config.Port, db.config.DatabaseName)
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", db.config.User, db.config.Password, db.config.Host, db.config.Port, db.config.DatabaseName)
+}
+
+func (db *MysqlDatabase) GetPool() *sql.DB {
+	return db.pool
 }

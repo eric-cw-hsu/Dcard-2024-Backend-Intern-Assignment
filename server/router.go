@@ -1,14 +1,20 @@
 package server
 
-import "github.com/gin-gonic/gin"
+import (
+	"dcard-2024-backend-intern-assignment/controllers"
+	"dcard-2024-backend-intern-assignment/repositories"
+	"dcard-2024-backend-intern-assignment/services"
+)
 
 func (server *Server) InitRouter() {
 	v1 := server.router.Group("/api/v1")
 	{
-		v1.GET("/", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "Hello World",
-			})
-		})
+		adRouter := v1.Group("/ad")
+		{
+			adRepository := repositories.NewAdRepository(server.db.GetPool())
+			adService := services.NewAdService()
+			adController := controllers.NewAdController(*adRepository, *adService)
+			adRouter.POST("/", adController.CreateAd)
+		}
 	}
 }

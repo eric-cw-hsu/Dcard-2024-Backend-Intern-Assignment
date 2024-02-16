@@ -1,5 +1,7 @@
 package databases
 
+import "database/sql"
+
 type DatabaseConfigs struct {
 	Host         string
 	Port         string
@@ -9,6 +11,7 @@ type DatabaseConfigs struct {
 }
 
 type BaseDatabase interface {
+	GetPool() *sql.DB
 	Connect()
 	Close()
 	GetConnectionString() string

@@ -9,6 +9,7 @@ import (
 
 func main() {
 	config := utils.LoadConfig()
+
 	db := databases.NewMysqlDatabase(databases.DatabaseConfigs{
 		Host:         config.DB_HOST,
 		Port:         config.DB_PORT,
@@ -18,10 +19,11 @@ func main() {
 	})
 
 	server := server.NewServer(config, db)
-	server.InitRouter()
 
 	server.StartDatabaseConnection()
 	defer server.CloseDatabaseConnection()
+
+	server.InitRouter()
 
 	log.Fatal(server.Serve())
 }
